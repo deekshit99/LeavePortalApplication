@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -16,11 +17,21 @@ namespace EmployeeLeavePortal.Models
             // Add custom user claims here
             return userIdentity;
         }
+        [Required]
+        [StringLength(250)]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [StringLength(250)]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<Employees> Employee { get; set; }
+
+        public DbSet<LeaveRequest> leaveRequests { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
@@ -30,5 +41,7 @@ namespace EmployeeLeavePortal.Models
         {
             return new ApplicationDbContext();
         }
+
+        
     }
 }
